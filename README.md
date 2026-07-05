@@ -1,6 +1,6 @@
 Inventory Manager (Supra Exam)
 
-Basic CRUD app I built for the Z-prefix assessment. It's an inventory tracker -
+Basic CRUD app I built for the Z-prefix assessment. It's an inventory tracker
 you sign up as an inventory manager, add items you want to keep track of, and
 edit/delete them later. You don't need an account just to browse, anyone can
 look at what's been added.
@@ -44,12 +44,11 @@ How it works
 
 If you're not logged in you can still browse all the items and click into any
 of them for details. Once you're signed in you can add your own items and
-edit or delete them - but only your own. Other people's items are read only
+edit or delete them, but only your own. Other people's items are read only
 for you.
 
 Layout
 
 
-BackEnd/ - the Express API, pg pool, auth middleware
-FrontEnd/ - the React app. The Vite dev server proxies /api to the backend
-so there's no CORS stuff to deal with
+BackEnd : the Express API, pg pool, auth middleware
+FrontEnd : the React app. The Vite dev server proxies /api to the backend
