@@ -12,18 +12,18 @@ html, body, #root {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
                Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background: #f4f6fb;
-  color: #1f2937;
+  background: #f7f4fc;
+  color: #2a1f3d;
   line-height: 1.5;
 }
 
 h1, h2, h3 {
   margin: 0 0 0.5rem;
-  color: #111827;
+  color: #2a1f3d;
 }
 
 a {
-  color: #2563eb;
+  color: #7c3aed;
   text-decoration: none;
 }
 
@@ -52,9 +52,9 @@ a:hover {
 
 /* ------- Navbar ------- */
 .navbar {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  background: linear-gradient(90deg, #6d28d9 0%, #7c3aed 100%);
+  border-bottom: 1px solid #5b21b6;
+  box-shadow: 0 2px 6px rgba(91, 33, 182, 0.15);
   position: sticky;
   top: 0;
   z-index: 20;
@@ -79,11 +79,12 @@ a:hover {
 .brand {
   font-weight: 700;
   font-size: 1.1rem;
-  color: #111827;
+  color: #ffffff;
 }
 
 .brand:hover {
   text-decoration: none;
+  color: #f5f3ff;
 }
 
 .nav-links {
@@ -92,13 +93,13 @@ a:hover {
 }
 
 .nav-links a {
-  color: #4b5563;
+  color: #ede9fe;
   font-weight: 500;
   font-size: 0.95rem;
 }
 
 .nav-links a:hover {
-  color: #111827;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -109,7 +110,7 @@ a:hover {
 }
 
 .hello {
-  color: #4b5563;
+  color: #ede9fe;
   font-size: 0.95rem;
   margin-right: 0.25rem;
 }
@@ -135,23 +136,23 @@ a:hover {
 }
 
 .btn-primary {
-  background: #2563eb;
+  background: #7c3aed;
   color: #ffffff;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: #6d28d9;
   text-decoration: none;
 }
 
 .btn-ghost {
   background: transparent;
-  color: #374151;
-  border-color: #d1d5db;
+  color: #4c1d95;
+  border-color: #c4b5fd;
 }
 
 .btn-ghost:hover:not(:disabled) {
-  background: #f3f4f6;
+  background: #f5f3ff;
 }
 
 .btn-danger {
@@ -165,6 +166,28 @@ a:hover {
 
 .btn-block {
   width: 100%;
+}
+
+/* Buttons inside the purple navbar need to stand out against the gradient */
+.navbar .btn-primary {
+  background: #ffffff;
+  color: #6d28d9;
+}
+
+.navbar .btn-primary:hover:not(:disabled) {
+  background: #f5f3ff;
+  color: #5b21b6;
+}
+
+.navbar .btn-ghost {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: transparent;
+}
+
+.navbar .btn-ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 /* ------- Page heads ------- */
@@ -244,8 +267,8 @@ a:hover {
 }
 
 .qty-badge {
-  background: #eef2ff;
-  color: #4338ca;
+  background: #ede9fe;
+  color: #5b21b6;
   border-radius: 999px;
   padding: 0.15rem 0.6rem;
   font-size: 0.8rem;
@@ -346,8 +369,8 @@ a:hover {
 .item-form textarea:focus,
 .auth-form input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
 }
 
 .item-form input[readonly],
@@ -455,8 +478,8 @@ a:hover {
 }
 
 .tab-active {
-  color: #2563eb;
-  border-bottom-color: #2563eb;
+  color: #7c3aed;
+  border-bottom-color: #7c3aed;
 }
 
 /* ------- Small screens ------- */

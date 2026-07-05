@@ -1,10 +1,24 @@
+/*
+ * Item CRUD routes.
+ *
+ * Public (no auth required):
+ *   GET    /api/items       — list every item, with owner username
+ *   GET    /api/items/:id   — show one item
+ *
+ * Auth required:
+ *   GET    /api/items/mine  — items owned by the caller
+ *   POST   /api/items       — create an item
+ *   PUT    /api/items/:id   — edit an item (owner only)
+ *   DELETE /api/items/:id   — delete an item (owner only)
+ */
 const express = require('express');
 const pool = require('../db/pool');
 const { requireAuth, optionalAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// GET /api/items — public, all items (with owner username)
+// ---------- GET / — public, list all items ----------
+// Joins users so each item card can show "by <username>".
 router.get('/', async (req, res) => {
   try {
     const { rows } = await pool.query(
@@ -21,7 +35,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/items/mine — logged-in user's items
+// ---------- GET /mine — auth, only the caller's items ----------
+// Must be declared BEFORE `/:id` or "mine" would be treated as an id param.
 router.get('/mine', requireAuth, async (req, res) => {
   try {
     const { rows } = await pool.query(
@@ -38,7 +53,7 @@ router.get('/mine', requireAuth, async (req, res) => {
   }
 });
 
-// GET /api/items/:id — public, single item
+// ---------- GET /:id — public, one item ----------
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (!Number.isInteger(id)) {
@@ -61,9 +76,11 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/items — auth, create
+// ---------- POST / — auth, create a new item under the caller ----------
 router.post('/', requireAuth, async (req, res) => {
   const { name, description, quantity } = req.body || {};
+
+  // Validate the required fields before hitting the DB.
   if (!name || typeof name !== 'string' || !name.trim()) {
     return res.status(400).json({ error: 'Name is required' });
   }
@@ -86,12 +103,14 @@ router.post('/', requireAuth, async (req, res) => {
   }
 });
 
-// PUT /api/items/:id — auth, owner-only, edit
+// ---------- PUT /:id — auth + owner-only, update ----------
 router.put('/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   if (!Number.isInteger(id)) {
     return res.status(400).json({ error: 'Invalid item id' });
   }
+
+  // Same shape as create — validate first.
   const { name, description, quantity } = req.body || {};
   if (!name || typeof name !== 'string' || !name.trim()) {
     return res.status(400).json({ error: 'Name is required' });
@@ -102,6 +121,7 @@ router.put('/:id', requireAuth, async (req, res) => {
   }
 
   try {
+    // Ownership check — you can only edit items you own.
     const existing = await pool.query('SELECT user_id FROM items WHERE id = $1', [id]);
     if (!existing.rows[0]) return res.status(404).json({ error: 'Item not found' });
     if (existing.rows[0].user_id !== req.user.id) {
@@ -122,13 +142,14 @@ router.put('/:id', requireAuth, async (req, res) => {
   }
 });
 
-// DELETE /api/items/:id — auth, owner-only
+// ---------- DELETE /:id — auth + owner-only, remove ----------
 router.delete('/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   if (!Number.isInteger(id)) {
     return res.status(400).json({ error: 'Invalid item id' });
   }
   try {
+    // Same ownership check as PUT.
     const existing = await pool.query('SELECT user_id FROM items WHERE id = $1', [id]);
     if (!existing.rows[0]) return res.status(404).json({ error: 'Item not found' });
     if (existing.rows[0].user_id !== req.user.id) {
